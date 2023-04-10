@@ -1,0 +1,122 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login authentication</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+   <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header class="homepage">
+    <h2 class="logo">Authentication</h2>
+    <nav class="navigation">
+        <button class="btnlogin-popup">Login</button>
+        <button class="btnregister-popup">Register</button>
+    </nav>
+    </header>
+    <div class="wrapper">
+        <div class="login-form login">
+            <h2>Login</h2>
+            <form method="post" onsubmit="return submitUserForm();" id="forms">
+                <div class="inputbox">
+                    <span class="icon"></span>
+                    <input type="email" name="email" required>
+                    <label>Email</label>
+                </div>
+                <div class="inputbox">
+                    <span class="icon"></span>
+                    <input type="password" name="password" required>
+                    <label>Password</label>
+                </div>
+                <div class="forget">
+                    <a href="/project/forgot-password">Forgot Password ?</a>
+                </div>
+                <div class="g-recaptcha" data-sitekey="6LfYeHElAAAAAGmfmgk5SAraLkzCC-CaDivXHzgj" data-callback="verifyCaptcha"></div>
+                <div id="g-recaptcha-error"></div>
+                <button type="submit" class="btn">Login</button>
+                <a href="/auth/google">Login with Google</a>
+            </form>
+
+        </div>
+        <div class="login-form register">
+            <h2>Registration</h2>
+            <form action="/project/signup" method="post">
+                <div class="inputbox">
+                    <span class="icon"></span>
+                    <input type="text" name="name" required>
+                    <label>Username</label>
+                </div>
+                <div class="inputbox">
+                    <span class="icon"></span>
+                    <input type="email" name="email" required>
+                    <label>Email</label>
+                </div>
+                <div class="inputbox">
+                    <span class="icon"></span>
+                    <input type="password" name="password" required>
+                    <label>Password</label>
+                </div>
+                <div class="inputbox">
+                    <span class="icon"></span>
+                    <input type="password" name="confirmpassword" required>
+                    <label>Confirm Password</label>
+                </div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+
+        </div>
+     </div>
+     <script>
+        const wrapper =document.querySelector('.wrapper');
+        const btnpop2 =document.querySelector('.btnregister-popup');
+        const btnpop =document.querySelector('.btnlogin-popup');
+            btnpop.addEventListener('click', ()=> {
+             wrapper.classList.remove('active')  
+             wrapper.classList.add('active-popup')
+            });
+            btnpop2.addEventListener('click', ()=> {
+                wrapper.classList.remove('active-popup')
+             wrapper.classList.add('active')
+            });
+
+            <% if(success && success.length > 0) { %>
+                new Noty({
+                    theme: 'relax',
+                    text: "<%= success %>",
+                    type: 'success',
+                    layout: 'topRight',
+                    timeout: 1500
+                    
+                }).show();    
+            <% } %>
+            <% if (error && error.length > 0) {%>
+                new Noty({
+                    theme: 'relax',
+                    text: "<%= error %>",
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 1500
+                    
+                }).show();    
+            <%} %>
+     </script>
+     <script>
+        function submitUserForm(){
+        var response =grecaptcha.getResponse();
+        if(response.length == 0) {
+            document.getElementById('g-recaptcha-error').innerHTML=`<span style="color:red;">Captcha is required.</span>`;
+            return false;
+        }
+        form=document.getElementById('forms');
+        return form.action="/project/login";
+    }
+    function verifyCaptcha() {
+        document.getElementById('g-recaptcha-error').innerHTML=``;
+    }
+
+     </script>
+</body>
+</html>

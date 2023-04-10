@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HomePage</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h2 class="logo">Authentication</h2>
+      </header>
+  <div class="display">
+    <% if (user) { %>
+      <h1>Welcome <%= user.email %>
+      </h1>
+      <!-- <p>Hello How  Are  You</p> -->
+      
+      <section class="about">
+        <h2>Welcome</h2>
+        <p> To Authentication Page </p>
+      </section>
+      
+      <form action="/project/logout" method="get">
+        <button type="submit" class="btn">Logout</button>
+      </form>
+      <form action="/project/reset-password" method="get">
+        <button type="submit" class="btn">Reset Password</button>
+      </form>
+      <footer>
+        <p>Copyright &copy; 2023
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms &amp; Conditions</a>
+        </p>
+      </footer>
+      <% } else { %>
+        <div class="special">
+          <h1>Log In To Your Account</h1>
+          <p class="message">
+            <%= message %>
+          </p>
+          <button type="submit" class="btn"><a href="/login">Login</a></button>
+          <button class="btn"><a href="/signup">Sign up</a></button>
+        </div>
+        <% } %>
+  </div>
+<script>
+    <% if(success && success.length > 0) { %>
+                new Noty({
+                    theme: 'relax',
+                    text: "<%= success %>",
+                    type: 'success',
+                    layout: 'topRight',
+                    timeout: 1500
+                    
+                }).show();    
+            <% } %>
+            <% if (error && error.length > 0) {%>
+                new Noty({
+                    theme: 'relax',
+                    text: "<%= flash.error %>",
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 1500
+                    
+                }).show();    
+            <%} %>
+ </script>
+</body>
+
+</html>
